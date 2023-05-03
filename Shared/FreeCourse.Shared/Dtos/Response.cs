@@ -8,7 +8,7 @@ namespace FreeCourse.Shared.Dtos
     #region #region Response Dto Açıklaması 
     //Bir api'ye istek yapıldığında başarılı veya başarısız durum döner bu durumların tanımlandığı dto alanı
     #endregion
-    public class ResponseDto<T>
+    public class Response<T>
     {
         public T Data { get; private set; }
 
@@ -28,28 +28,28 @@ namespace FreeCourse.Shared.Dtos
 
         //Static Factory Method
 
-        public static ResponseDto<T> Success(T data, int statusCode) //Cevabın Başarılı olup üzerine bize data döndürdüğü senaryo
+        public static Response<T> Success(T data, int statusCode) //Cevabın Başarılı olup üzerine bize data döndürdüğü senaryo
         {
-            return new ResponseDto<T> { Data = data, StatusCode = statusCode, IsSuccessful = true };
+            return new Response<T> { Data = data, StatusCode = statusCode, IsSuccessful = true };
         }
 
-        public static ResponseDto<T> Success(int statusCode) //Bu durum da durumun başarılı ama data dönmeyecek duurmlar update,delete gibi
+        public static Response<T> Success(int statusCode) //Bu durum da durumun başarılı ama data dönmeyecek duurmlar update,delete gibi
         {
-            return new ResponseDto<T> { Data = default(T), StatusCode = statusCode, IsSuccessful = true };
+            return new Response<T> { Data = default(T), StatusCode = statusCode, IsSuccessful = true };
         }
 
-        public static ResponseDto<T> Fail(List<string> errors, int statusCode) //Bu birden fazla hatanın olduğu senaryoda response dönecek o yüzden hatalar list string içinde
+        public static Response<T> Fail(List<string> errors, int statusCode) //Bu birden fazla hatanın olduğu senaryoda response dönecek o yüzden hatalar list string içinde
         {
-            return new ResponseDto<T>
+            return new Response<T>
             {
                 StatusCode = statusCode,
                 Errors = errors,
                 IsSuccessful = false
             };
         }
-        public static ResponseDto<T> Fail(string error, int statusCode)
+        public static Response<T> Fail(string error, int statusCode)
         {
-            return new ResponseDto<T> { Errors = new List<string>() { error }, StatusCode = statusCode, IsSuccessful = false };
+            return new Response<T> { Errors = new List<string>() { error }, StatusCode = statusCode, IsSuccessful = false };
 
 
         } //tek bir hata var ise bu

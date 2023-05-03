@@ -1,4 +1,5 @@
 using FreeCourse.Services.Catalog.Configurations;
+using FreeCourse.Services.Catalog.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,8 @@ namespace FreeCourse.Services.Catalog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ICategoryService,CategoryService>(); //ICategoryService ile karþýlaþtýðýnda categoryservice nesnesi üret.
+
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
 
