@@ -13,7 +13,7 @@ namespace FreeCourse.Services.Catalog.Services
 
         public CategoryService(IMongoCollection<Category> categoryCollection, IMapper mapper, IDatabaseSettings databaseSettings)
         {
-            var client = new MongoClient(databaseSettings.ConnectionString);
+            var client = new MongoClient(databaseSettings.ConnectionString); 
 
             var database = client.GetDatabase(databaseSettings.DatabaseName);
 
