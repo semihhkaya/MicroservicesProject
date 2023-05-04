@@ -29,6 +29,7 @@ namespace FreeCourse.Services.Catalog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ICategoryService,CategoryService>(); //ICategoryService ile karþýlaþtýðýnda categoryservice nesnesi üret.
+            services.AddScoped<ICourseService, CourseService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
