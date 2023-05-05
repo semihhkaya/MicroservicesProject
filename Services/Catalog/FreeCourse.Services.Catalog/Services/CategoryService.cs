@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Catalog.Services
 {
-    internal class CategoryService:ICategoryService
+    public class CategoryService:ICategoryService
     {
         //önce vt yolu nerden bağlanacağımız gibi bilgiler lazım
         private readonly IMongoCollection<Category> _categoryCollection;

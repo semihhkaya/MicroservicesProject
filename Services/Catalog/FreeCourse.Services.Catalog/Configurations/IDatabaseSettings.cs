@@ -1,6 +1,6 @@
 ﻿namespace FreeCourse.Services.Catalog.Configurations
 {
-    internal interface IDatabaseSettings
+    public interface IDatabaseSettings
     {
         public string CourseCollectionName { get; set; }
         public string CategoryCollectionName { get; set; }

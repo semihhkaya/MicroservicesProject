@@ -10,15 +10,15 @@ namespace FreeCourse.Services.Catalog.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    internal class CoursesController : CustomBaseController
+    public class CoursesController : CustomBaseController
     {
         private readonly ICourseService _courseService;
 
-        internal CoursesController(ICourseService courseService)
+        public CoursesController(ICourseService courseService)
         {
             _courseService = courseService;
         }
-
+        [HttpGet]
         public async Task<IActionResult> GetAll(string id)
         {
             var response = await _courseService.GettAllAsync();
@@ -36,6 +36,7 @@ namespace FreeCourse.Services.Catalog.Controller
 
         //[HttpGet("{userId}")]
         //hem user id hem de getbyid ikisi de id aldığı için ayırmak için özel route yazdık bu route sağlandığında bu action çalışacak.
+        [HttpGet]
         [Route("api/[controller]/GetAllByUserId/{userId}")]
         public async Task<IActionResult> GetAllByUserId(string userId)
         {
