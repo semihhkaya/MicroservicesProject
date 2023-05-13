@@ -1,1 +1,3 @@
 Catalog API = http://localhost:5011
+photo stock apý = 5012
+Identity server => 50001
