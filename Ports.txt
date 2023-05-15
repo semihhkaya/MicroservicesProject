@@ -1,4 +1,6 @@
 Catalog API = http://localhost:5011
 photo stock apý = 5012
 basket apý = 5013 port
+discount apý = 5014 portu
 Identity server => 50001
+
