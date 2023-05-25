@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaðý zaman kullanýlacak yapý
+      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaï¿½ï¿½ zaman kullanï¿½lacak yapï¿½
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,15 +9,18 @@
           "Port": 5011
         }
       ],
-      "UpstreamPathTemplate": "/services/catalog/{everything}", //Up kýsmý client uygulamasý yani kullanýcý api gw'e istek yaptýðýnda çalýþacak yapý
+      "UpstreamPathTemplate": "/services/catalog/{everything}", //Up kï¿½smï¿½ client uygulamasï¿½ yani kullanï¿½cï¿½ api gw'e istek yaptï¿½ï¿½ï¿½nda ï¿½alï¿½ï¿½acak yapï¿½
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationScheme", //Startupda authentication dÄ±'Ä±na gidecek bu isimdeki ÅŸemayÄ± ve onun iÃ§erisindeki Ã¶zellikleri tutup tutmadÄ±ÄŸÄ±na bakÄ±cak eline gelen jwt'nin. Ã¶rneÄŸin resoruce gateway vs iÃ§eriyor mu diye
+        "AllowedScopes": [ "catalog_fullpermission" ]
+      }
     },
 
-    //-------------------------------------//
 
     {
-      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaðý zaman kullanýlacak yapý
+      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaï¿½ï¿½ zaman kullanï¿½lacak yapï¿½
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -25,15 +28,19 @@
           "Port": 5012
         }
       ],
-      "UpstreamPathTemplate": "/services/photostock/{everything}", //Up kýsmý client uygulamasý yani kullanýcý api gw'e istek yaptýðýnda çalýþacak yapý
+      "UpstreamPathTemplate": "/services/photostock/{everything}", //Up kï¿½smï¿½ client uygulamasï¿½ yani kullanï¿½cï¿½ api gw'e istek yaptï¿½ï¿½ï¿½nda ï¿½alï¿½ï¿½acak yapï¿½
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationScheme", //Startupda authentication dÄ±'Ä±na gidecek bu isimdeki ÅŸemayÄ± ve onun iÃ§erisindeki Ã¶zellikleri tutup tutmadÄ±ÄŸÄ±na bakÄ±cak eline gelen jwt'nin. Ã¶rneÄŸin resoruce gateway vs iÃ§eriyor mu diye
+        "AllowedScopes": [ "photo_stock_fullpermission" ]
+      }
     },
 
-    //-------------------------------------------//
+
 
     {
-      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaðý zaman kullanýlacak yapý
+      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaï¿½ï¿½ zaman kullanï¿½lacak yapï¿½
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -41,61 +48,71 @@
           "Port": 5013
         }
       ],
-      "UpstreamPathTemplate": "/services/basket/{everything}", //Up kýsmý client uygulamasý yani kullanýcý api gw'e istek yaptýðýnda çalýþacak yapý
+      "UpstreamPathTemplate": "/services/basket/{everything}", //Up kï¿½smï¿½ client uygulamasï¿½ yani kullanï¿½cï¿½ api gw'e istek yaptï¿½ï¿½ï¿½nda ï¿½alï¿½ï¿½acak yapï¿½
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationScheme", //Startupda authentication dÄ±'Ä±na gidecek bu isimdeki ÅŸemayÄ± ve onun iÃ§erisindeki Ã¶zellikleri tutup tutmadÄ±ÄŸÄ±na bakÄ±cak eline gelen jwt'nin. Ã¶rneÄŸin resoruce gateway vs iÃ§eriyor mu diye
+        "AllowedScopes": [ "basket_fullpermission" ]
+      }
     },
 
-    //------------------------------//
 
     {
-      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaðý zaman kullanýlacak yapý
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5014
+        "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaï¿½ï¿½ zaman kullanï¿½lacak yapï¿½
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5014
+          }
+        ],
+        "UpstreamPathTemplate": "/services/discount/{everything}", //Up kï¿½smï¿½ client uygulamasï¿½ yani kullanï¿½cï¿½ api gw'e istek yaptï¿½ï¿½ï¿½nda ï¿½alï¿½ï¿½acak yapï¿½
+        "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+        "UpstreamScheme": "http",
+        "AuthenticationOptions": {
+          "AuthenticationProviderKey": "GatewayAuthenticationScheme", //Startupda authentication dÄ±'Ä±na gidecek bu isimdeki ÅŸemayÄ± ve onun iÃ§erisindeki Ã¶zellikleri tutup tutmadÄ±ÄŸÄ±na bakÄ±cak eline gelen jwt'nin. Ã¶rneÄŸin resoruce gateway vs iÃ§eriyor mu diye
+          "AllowedScopes": [ "discount_fullpermission" ]
         }
-      ],
-      "UpstreamPathTemplate": "/services/discount/{everything}", //Up kýsmý client uygulamasý yani kullanýcý api gw'e istek yaptýðýnda çalýþacak yapý
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
     },
 
-    //---------------------//
-
     {
-      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaðý zaman kullanýlacak yapý
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5015
-        }
-      ],
-      "UpstreamPathTemplate": "/services/order/{everything}", //Up kýsmý client uygulamasý yani kullanýcý api gw'e istek yaptýðýnda çalýþacak yapý
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
+          "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaï¿½ï¿½ zaman kullanï¿½lacak yapï¿½
+          "DownstreamScheme": "http",
+          "DownstreamHostAndPorts": [
+            {
+              "Host": "localhost",
+              "Port": 5015
+            }
+          ],
+          "UpstreamPathTemplate": "/services/order/{everything}", //Up kï¿½smï¿½ client uygulamasï¿½ yani kullanï¿½cï¿½ api gw'e istek yaptï¿½ï¿½ï¿½nda ï¿½alï¿½ï¿½acak yapï¿½
+          "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+          "UpstreamScheme": "http",
+          "AuthenticationOptions": {
+            "AuthenticationProviderKey": "GatewayAuthenticationScheme", //Startupda authentication dÄ±'Ä±na gidecek bu isimdeki ÅŸemayÄ± ve onun iÃ§erisindeki Ã¶zellikleri tutup tutmadÄ±ÄŸÄ±na bakÄ±cak eline gelen jwt'nin. Ã¶rneÄŸin resoruce gateway vs iÃ§eriyor mu diye
+            "AllowedScopes": [ "order_fullpermission" ]
+          }
     },
 
-    //----------------------//
 
     {
-      "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaðý zaman kullanýlacak yapý
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5016
-        }
-      ],
-      "UpstreamPathTemplate": "/services/fakepayment/{everything}", //Up kýsmý client uygulamasý yani kullanýcý api gw'e istek yaptýðýnda çalýþacak yapý
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
+           "DownstreamPathTemplate": "/api/{everything}", //Gateway'den ilgili mikroservise root olacaï¿½ï¿½ zaman kullanï¿½lacak yapï¿½
+           "DownstreamScheme": "http",
+           "DownstreamHostAndPorts": [
+           {
+              "Host": "localhost",
+              "Port": 5016
+           }
+          ],
+
+            "UpstreamPathTemplate": "/services/fakepayment/{everything}", //Up kï¿½smï¿½ client uygulamasï¿½ yani kullanï¿½cï¿½ api gw'e istek yaptï¿½ï¿½ï¿½nda ï¿½alï¿½ï¿½acak yapï¿½
+            "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+            "UpstreamScheme": "http",
+            "AuthenticationOptions": {
+              "AuthenticationProviderKey": "GatewayAuthenticationScheme", //Startupda authentication dÄ±'Ä±na gidecek bu isimdeki ÅŸemayÄ± ve onun iÃ§erisindeki Ã¶zellikleri tutup tutmadÄ±ÄŸÄ±na bakÄ±cak eline gelen jwt'nin. Ã¶rneÄŸin resoruce gateway vs iÃ§eriyor mu diye
+              "AllowedScopes": [ "payment_fullpermission" ]
+            }
     }
-
-
-
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"

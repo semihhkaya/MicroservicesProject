@@ -19,6 +19,7 @@ namespace FreeCourse.IdentityServer
             new ApiResource("resource_discount"){Scopes ={"discount_fullpermission"}},
             new ApiResource("resource_order"){Scopes ={"order_fullpermission"}},
             new ApiResource("resource_payment"){Scopes ={"payment_fullpermission"}},
+            new ApiResource("resource_gateway"){Scopes ={"gateway_fullpermission"}},
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
 
@@ -43,6 +44,7 @@ namespace FreeCourse.IdentityServer
                 new ApiScope("discount_fullpermission","Discount API için full erişim"),
                 new ApiScope("order_fullpermission","Order API için full erişim"),
                 new ApiScope("payment_fullpermission","Payment API için full erişim"),
+                new ApiScope("gateway_fullpermission","API Gateway için full erişim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
                 
                 //Memoryde olcaklar identityserver kısmını tekrar izleyeceğim.
@@ -57,7 +59,7 @@ namespace FreeCourse.IdentityServer
                     ClientId = "WebMvcClient",
                     ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "catalog_fullpermission", "photo_stock_fullpermission",IdentityServerConstants.LocalApi.ScopeName }
+                    AllowedScopes = { "gateway_fullpermission", "catalog_fullpermission", "photo_stock_fullpermission",IdentityServerConstants.LocalApi.ScopeName }
                 },
                 new Client
                 {
@@ -66,7 +68,7 @@ namespace FreeCourse.IdentityServer
                     AllowOfflineAccess= true,
                     ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = { "payment_fullpermission","order_fullpermission","discount_fullpermission","basket_fullpermission",IdentityServerConstants.StandardScopes.Email, 
+                    AllowedScopes = { "gateway_fullpermission","payment_fullpermission","order_fullpermission","discount_fullpermission","basket_fullpermission",IdentityServerConstants.StandardScopes.Email, 
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.LocalApi.ScopeName, "roles"},

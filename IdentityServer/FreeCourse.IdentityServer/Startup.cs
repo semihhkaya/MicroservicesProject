@@ -30,6 +30,8 @@ namespace FreeCourse.IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
 
+            
+
             services.AddLocalApiAuthentication();
 
             services.AddControllersWithViews();
