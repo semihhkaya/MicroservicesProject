@@ -108,7 +108,7 @@ namespace FreeCourse.Web.Services
                 TokenTypeHint = "refresh_token" //Identitymodel web dokumanı
             };
 
-            await _httpclient.RevokeTokenAsync(tokenRevocationRequest);
+            await _httpclient.RevokeTokenAsync(tokenRevocationRequest); 
 		}
 
         public async Task<Response<bool>> SignIn(SigninInput signinInput)
