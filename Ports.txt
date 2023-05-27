@@ -4,6 +4,6 @@ basket apý = 5013 port
 discount apý = 5014 portu
 order apý = 5015 portu
 fakepayment api = 5016 portu
-Identity server => 50001
+Identity server => 5001
 Gateway => 5000 portu
 Web - Frontends =>  5010 portu
