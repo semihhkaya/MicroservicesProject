@@ -20,29 +20,98 @@ namespace FreeCourse.Web.Services
     public class IdentityService : IIdentityService
     {
         private readonly HttpClient _httpclient;
-        private readonly HttpContextAccessor _httpContextAccessor;
-        private readonly ClientSettings _clientSettings;
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly ClientSettings _clientSettings;
         private readonly ServiceApiSettings _serviceApiSettings;
 
-        public IdentityService(HttpClient httpclient, HttpContextAccessor httpContextAccessor, IOptions<ClientSettings> clientSettings, IOptions<ServiceApiSettings> serviceApiSettings)
+        public IdentityService(HttpClient httpclient, IHttpContextAccessor httpContextAccessor, IOptions<ClientSettings> clientSettings, IOptions<ServiceApiSettings> serviceApiSettings)
         {
             _httpclient = httpclient;
-            _httpContextAccessor = httpContextAccessor;
-            _clientSettings = clientSettings.Value;
+			_httpContextAccessor = httpContextAccessor;
+			_clientSettings = clientSettings.Value;
             _serviceApiSettings = serviceApiSettings.Value;
         }
 
-        public Task<TokenResponse> GetAccessTokenByRefreshToken()
+        public async Task<TokenResponse> GetAccessTokenByRefreshToken()
         {
-            throw new System.NotImplementedException();
-        }
+			var disco = await _httpclient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+			{
+				Address = _serviceApiSettings.BaseUri,
+				Policy = new DiscoveryPolicy { RequireHttps = false }
+			}); //discovery
 
-        public Task RevokeRefreshToken()
+			if (disco.IsError)
+			{
+				throw disco.Exception;
+			}
+
+            var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync
+                (OpenIdConnectParameterNames.RefreshToken);
+
+            RefreshTokenRequest refreshTokenRequest = new()
+            {
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                RefreshToken = refreshToken,
+                Address = disco.TokenEndpoint
+            };
+
+            var token = await _httpclient.RequestRefreshTokenAsync(refreshTokenRequest);
+            if (token.IsError)
+            {
+                return null;
+            }
+
+			
+			var authenticationTokens =  new List<AuthenticationToken>()
+			{
+				new AuthenticationToken{Name = OpenIdConnectParameterNames.AccessToken,Value = token.AccessToken},
+				new AuthenticationToken{Name = OpenIdConnectParameterNames.RefreshToken,Value = token.RefreshToken},
+				new AuthenticationToken{Name = OpenIdConnectParameterNames.ExpiresIn,
+					Value = DateTime.Now.AddSeconds(token.ExpiresIn).ToString("o",CultureInfo.InvariantCulture)}
+			};
+
+            var authenticationResult = await _httpContextAccessor.HttpContext.AuthenticateAsync();
+
+            var properties = authenticationResult.Properties;
+            properties.StoreTokens(authenticationTokens);
+
+            await _httpContextAccessor.HttpContext.SignInAsync
+                (CookieAuthenticationDefaults.AuthenticationScheme, authenticationResult.Principal,properties);
+
+            return token;
+
+
+		}
+        //IDentityserver kullanıcı logout olduğunda refreshtokenı düşürmek vt'den silmek lazım.
+        public async Task RevokeRefreshToken()
         {
-            throw new System.NotImplementedException();
-        }
+			var disco = await _httpclient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+			{
+				Address = _serviceApiSettings.BaseUri,
+				Policy = new DiscoveryPolicy { RequireHttps = false }
+			}); //discovery
 
-        public async Task<Response<bool>> SignIn(SigninInput signInInput)
+			if (disco.IsError)
+			{
+				throw disco.Exception;
+			}
+            var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync
+                (OpenIdConnectParameterNames.RefreshToken);
+
+            TokenRevocationRequest tokenRevocationRequest = new()
+            {
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                Address = disco.RevocationEndpoint,
+                Token = refreshToken,
+                TokenTypeHint = "refresh_token" //Identitymodel web dokumanı
+            };
+
+            await _httpclient.RevokeTokenAsync(tokenRevocationRequest);
+		}
+
+        public async Task<Response<bool>> SignIn(SigninInput signinInput)
         {
             var disco = await _httpclient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
@@ -57,10 +126,10 @@ namespace FreeCourse.Web.Services
 
             var passwordTokenRequest = new PasswordTokenRequest
             {
-                ClientId = _clientSettings.WebMvcClientForUser.ClientId,
-                ClientSecret = _clientSettings.WebMvcClient.ClientSecret,
-                UserName = signInInput.Email,
-                Password = signInInput.Password,
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                UserName = signinInput.Email,
+                Password = signinInput.Password,
                 Address = disco.TokenEndpoint
             };
 
@@ -76,6 +145,8 @@ namespace FreeCourse.Web.Services
 
                 return Response<bool>.Fail(errorDto.Errors, 400);
             }
+
+            //buraya kadar geldiysek token elimizdedir artık
 
             var userInfoRequest = new UserInfoRequest
             {
@@ -105,7 +176,7 @@ namespace FreeCourse.Web.Services
                     Value = DateTime.Now.AddSeconds(token.ExpiresIn).ToString("o",CultureInfo.InvariantCulture)}
             });
 
-            authenticationProperties.IsPersistent = signInInput.IsRemember;
+            authenticationProperties.IsPersistent = signinInput.IsRemember;
 
             await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 claimsPrincipal, authenticationProperties);
