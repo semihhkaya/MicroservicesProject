@@ -37,7 +37,7 @@ namespace FreeCourse.Services.Catalog.Controller
         //[HttpGet("{userId}")]
         //hem user id hem de getbyid ikisi de id aldığı için ayırmak için özel route yazdık bu route sağlandığında bu action çalışacak.
         [HttpGet]
-        [Route("api/[controller]/GetAllByUserId/{userId}")]
+        [Route("/api/[controller]/GetAllByUserId/{userId}")]//
         public async Task<IActionResult> GetAllByUserId(string userId)
         {
             var response = await _courseService.GetAllByUserIdAsync(userId);

@@ -10,15 +10,15 @@ namespace FreeCourse.Shared.Dtos
     #endregion
     public class Response<T>
     {
-        public T Data { get; private set; }
+        public T Data { get;  set; }
 
         [JsonIgnore]
         #region #region Bu datayı neden ignore'ladık?
         //Bu data'yı json tarafta ignore ettik durum kodunu zaten görebiliyoruz. Ancak sistem içerisinde buna ayrıca ibizm ihtiyacımız var çünkü response'un dönüş tipini belirlerken (yani error mu yoksa success mi gibi)   bu koddan faydalanacağız. ancak Bu prop'un repsonse' içerisinde ayrıca olmasına gerek yok 
         #endregion
-        public int StatusCode { get; private set; }
+        public int StatusCode { get;  set; }
         [JsonIgnore]
-        public bool IsSuccessful { get; private set; }
+        public bool IsSuccessful { get;  set; }
 
         public List<string> Errors { get; set; }
 
