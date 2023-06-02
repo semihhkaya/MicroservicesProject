@@ -32,7 +32,7 @@ namespace FreeCourse.Services.PhotoStock.Controllers
                 await photo.CopyToAsync(stream, cancellationToken); //tarayıcı vs kapanırsa istek cancel token sayesinde yarıda kesilir.
                 
 
-                var returnPath = "photos/"+photo.FileName;
+                var returnPath =photo.FileName;
 
                 PhotoDto photoDto = new() { Url= returnPath };
 
