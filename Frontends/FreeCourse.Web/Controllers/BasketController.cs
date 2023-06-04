@@ -15,7 +15,7 @@ namespace FreeCourse.Web.Controllers
             _catalogService = catalogService;
             _basketService = basketService;
         }
-
+        //DERS 158 DAKİKA 10
         public async Task<IActionResult> Index()
         {
             return View(await _basketService.Get());
