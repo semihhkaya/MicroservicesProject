@@ -1,10 +1,12 @@
 ﻿using FreeCourse.Web.Models.Baskets;
 using FreeCourse.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Controllers
 {
+    [Authorize]
     public class BasketController : Controller
     {
         private readonly ICatalogService _catalogService;
@@ -22,6 +24,7 @@ namespace FreeCourse.Web.Controllers
         }
         public async Task<IActionResult> AddBasketItem(string courseId)
         {
+
             var course = await _catalogService.GetByCourseId(courseId);
             var basketItem = new BasketItemViewModel() { CourseId= course.Id , CourseName = course.Name , Price = course.Price};
             
