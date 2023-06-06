@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,20 @@ namespace FreeCourse.Services.FakePayment
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) => //RABBÝTMQ DEFAULT 5672 PORTU
+                {
+                    cfg.Host(Configuration["RabbitMQUrl"], "/", host =>
+                    {
+                        host.Username("quest");
+                        host.Password("quest");
+                    });
+                });
+            });
+
+            services.AddMassTransitHostedService();
 
             var requireAuthorizePoliciy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub"); //Arka planda kullanýcý id' tutan jwt'nin sub ifadesini identityfire tip dönüþümü yapýyor yapmasýn diye maplemeyi iptalledik.
