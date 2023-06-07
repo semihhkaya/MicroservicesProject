@@ -33,15 +33,16 @@ namespace FreeCourse.Services.FakePayment
 
             services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq((context, cfg) => //RABBÝTMQ DEFAULT 5672 PORTU
+                x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host(Configuration["RabbitMQUrl"], "/", host =>
+                    cfg.Host(new Uri($"rabbitmq://{Configuration["RabbitMQUrl"]}:55225"), host =>
                     {
-                        host.Username("quest");
-                        host.Password("quest");
+                        host.Username("guest");
+                        host.Password("guest");
                     });
                 });
             });
+
 
             services.AddMassTransitHostedService();
 

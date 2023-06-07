@@ -1,4 +1,7 @@
-﻿namespace FreeCourse.Web.Models.FakePayments
+﻿using FreeCourse.Web.Models.Orders;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+
+namespace FreeCourse.Web.Models.FakePayments
 {
     public class PaymentInfoInput
     {
@@ -7,5 +10,6 @@
         public string Expiration { get; set; }
         public string CVV { get; set; }
         public decimal TotalPrice { get; set; }
+        public OrderCreateInput Order { get; set; }
     }
 }
